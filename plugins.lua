@@ -1,9 +1,4 @@
-local overrides = require "custom.configs.overrides"
-
----@type NvPluginSpec[]
 local plugins = {
-
-  -- Override plugin definition options
   {
     "rcarriga/nvim-dap-ui",
     event = "VeryLazy",
@@ -41,67 +36,46 @@ local plugins = {
     end
   },
   {
+    "mfussenegger/nvim-dap-python",
+    ft = "python",
+    dependencies = {
+      "mfussenegger/nvim-dap",
+    },
+    config = function(_, opts)
+      local path = "~/Appdata/Local/nvim-data/mason/packages/debugpy/venv/Scripts/python.exe"
+      require("dap-python").setup(path)
+    end
+  },
+  
+  { -- Allows non LSP tools to have LSP interface
     "jose-elias-alvarez/null-ls.nvim",
     event = "VeryLazy",
-    setup = function()
+    opts = function()
       return require "custom.configs.null-ls"
     end,
   },
-  {
+  { -- LSP default configurations
     "neovim/nvim-lspconfig",
     config = function()
       require "plugins.configs.lspconfig"
       require "custom.configs.lspconfig"
     end,
   },
-  {
+  { -- Coding related plugin manager
     "williamboman/mason.nvim",
     opts = {
       ensure_installed = {
-        "clangd",
-        "clang-format",
-        "codelldb",
+        "clangd",     -- C/C++ LSP
+        "clang-format", -- auto formatter
+        "codelldb", -- LLVM debug tools
+        "cpptools", -- GDB debug tools
+        "black",  -- Auto formatter
+        "debugpy",  -- Debugger for Python
+        "mypy", -- static type checking
+        "ruff", -- faster python linting
+        "pyright", -- Python LSP
       }
     }
-  },
-
-  {
-    "nvim-treesitter/nvim-treesitter",
-    opts = overrides.treesitter,
-  },
-
-  {
-    "nvim-tree/nvim-tree.lua",
-    opts = overrides.nvimtree,
-  },
-
-  -- Install a plugin
-  {
-    "max397574/better-escape.nvim",
-    event = "InsertEnter",
-    config = function()
-      require("better_escape").setup()
-    end,
-  },
-
-  {
-    "nvim-telescope/telescope-fzf-native.nvim",
-    build = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build",
-  },
-
-  -- To make a plugin not be loaded
-  -- {
-  --   "NvChad/nvim-colorizer.lua",
-  --   enabled = false
-  -- },
-
-  -- All NvChad plugins are lazy-loaded by default
-  -- For a plugin to be loaded, you will need to set either `ft`, `cmd`, `keys`, `event`, or set `lazy = false`
-  -- If you want a plugin to load on startup, add `lazy = false` to a plugin spec, for example
-  -- {
-  --   "mg979/vim-visual-multi",
-  --   lazy = false,
-  -- }
+  }
 }
-
 return plugins

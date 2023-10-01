@@ -1,29 +1,25 @@
----@type MappingsTable
 local M = {}
-
-M.general = {
-  n = {
-    [";"] = { ":", "enter command mode", opts = { nowait = true } },
-  },
-  v = {
-    [">"] = { ">gv", "indent" },
-  },
-}
 
 M.dap = {
   plugin = true,
   n = {
-    ["<leader>db"] = {
+    ["<F9>"] = {
       "<cmd> DapToggleBreakpoint <CR>",
       "Add breakpoint at line",
     },
-    ["<leader>dr"] = {
+    ["<F5>"] = {
       "<cmd> DapContinue <CR>",
       "Start or continue the debugger",
     },
-  },
+     ["<F10>"] = {
+      "<cmd> DapStepOver <CR>",
+      "Step over",
+    },
+     ["<F11>"] = {
+      "<cmd> DapStepInto <CR>",
+      "Step into",
+    }
+  }
 }
-
--- more keybinds!
 
 return M
