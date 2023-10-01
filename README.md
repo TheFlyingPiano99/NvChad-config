@@ -1,6 +1,6 @@
-# Example_config
+# Custom NvChad configuration
 
-This can be used as an example custom config for NvChad. Do check the https://github.com/NvChad/nvcommunity
+These are my custom Neovim config files for NvChad configuration framework.
 
 Put these files under ~/.config/nvim/lua/custom/ on Linux
 
